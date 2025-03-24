@@ -1,1 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
+/* Display utility classes */
+
+/* Hide elements */
+.hidden {
+  display: none;
+}
+
+/* Show as block element */
+.block {
+  display: block;
+}
+
+/* Show as flex container */
+.flex {
+  display: flex;
+}
+
+/* Show as inline element */
+.inline {
+  display: inline;
+}
+
+/* Show as inline-block element */
+.inline-block {
+  display: inline-block;
+}
+
+/* Responsive display classes */
+@media (min-width: 768px) {
+  .md\:hidden {
+    display: none;
+  }
+
+  .md\:block {
+    display: block;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:inline {
+    display: inline;
+  }
+
+  .md\:inline-block {
+    display: inline-block;
+  }
+}
