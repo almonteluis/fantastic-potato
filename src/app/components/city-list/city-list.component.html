@@ -1,1 +1,77 @@
-<h1>Testing this out</h1>
+<!-- city-list.component.html -->
+<div class="overflow-x-auto">
+  <table
+    class="min-w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700"
+  >
+    <thead>
+      <tr class="bg-gray-100 dark:bg-gray-700">
+        <th
+          (click)="handleSort('name')"
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+        >
+          Name {{ getSortIndicator("name") }}
+        </th>
+        <th
+          (click)="handleSort('country')"
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+        >
+          Country {{ getSortIndicator("country") }}
+        </th>
+        <th
+          (click)="handleSort('population')"
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+        >
+          Population {{ getSortIndicator("population") }}
+        </th>
+        <th
+          *ngIf="displayedCities[0]?.capital !== undefined"
+          (click)="handleSort('capital')"
+          class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer"
+        >
+          Capital {{ getSortIndicator("capital") }}
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="!isLoading && displayedCities.length > 0">
+      <tr
+        *ngFor="let city of displayedCities"
+        class="border-b border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <td
+          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+        >
+          {{ city.name }}
+        </td>
+        <td
+          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+        >
+          {{ city.country }}
+        </td>
+        <td
+          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+        >
+          {{ city.population | number }}
+        </td>
+        <td
+          *ngIf="city.capital !== undefined"
+          class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+        >
+          {{ city.capital === "Y" ? "Yes" : "No" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="isLoading" class="flex justify-center p-4">
+    <div
+      class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"
+    ></div>
+  </div>
+
+  <div
+    *ngIf="!isLoading && displayedCities.length === 0"
+    class="text-center p-4 text-gray-500"
+  >
+    No cities found. Try a different search term.
+  </div>
+</div>

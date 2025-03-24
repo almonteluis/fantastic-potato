@@ -1,67 +1,80 @@
-// src/app/components/city-list/city-list.component.ts
-import { Component, OnInit } from '@angular/core';
+// city-list.component.ts
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { CitiesService, City } from '../../data/worldcities/cities.service';
+import { City } from '../../data/worldcities/cities.service';
+
+type SortDirection = 'asc' | 'desc';
+
+interface SortConfig {
+  column: keyof City;
+  direction: SortDirection;
+}
 
 @Component({
   selector: 'app-city-list',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule],
   templateUrl: './city-list.component.html',
   styleUrls: ['./city-list.component.css'],
 })
 export class CityListComponent implements OnInit {
-  cities: City[] = [];
-  isLoading = false;
-  error: string | null = null;
-  searchControl = new FormControl('');
+  @Input() cities: City[] = [];
+  @Input() isLoading = false;
 
-  constructor(private citiesService: CitiesService) {}
+  displayedCities: City[] = [];
+  sortConfig: SortConfig = {
+    column: 'name',
+    direction: 'asc',
+  };
+
+  constructor() {}
 
   ngOnInit(): void {
-    // Initial data load
-    this.loadCities();
-
-    // Setup search with debounce
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((term) => {
-          this.isLoading = true;
-          return this.citiesService.getCities({
-            searchTerm: term || '',
-            limit: 20, // Limit results
-          });
-        })
-      )
-      .subscribe({
-        next: (results) => {
-          this.cities = results;
-          this.isLoading = false;
-          this.error = null;
-        },
-        error: (err) => {
-          this.error = err.message;
-          this.isLoading = false;
-          this.cities = [];
-        },
-      });
+    this.sortCities();
   }
 
-  loadCities(): void {
-    this.isLoading = true;
-    this.citiesService.getCities({ limit: 20 }).subscribe({
-      next: (cities) => {
-        this.cities = cities;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.error = err.message;
-        this.isLoading = false;
-      },
+  ngOnChanges(): void {
+    this.sortCities();
+  }
+
+  sortCities(): void {
+    if (!this.cities) return;
+
+    this.displayedCities = [...this.cities].sort((a, b) => {
+      const valueA = a[this.sortConfig.column];
+      const valueB = b[this.sortConfig.column];
+
+      if (typeof valueA === 'string' && typeof valueB === 'string') {
+        return this.sortConfig.direction === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      }
+
+      if (this.sortConfig.direction === 'asc') {
+        return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+      } else {
+        return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+      }
     });
+  }
+
+  handleSort(column: keyof City): void {
+    if (this.sortConfig.column === column) {
+      // Toggle direction if same column
+      this.sortConfig.direction =
+        this.sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      // Set new column with asc direction
+      this.sortConfig = {
+        column,
+        direction: 'asc',
+      };
+    }
+    this.sortCities();
+  }
+
+  getSortIndicator(column: keyof City): string {
+    if (this.sortConfig.column !== column) return '';
+    return this.sortConfig.direction === 'asc' ? '↑' : '↓';
   }
 }
