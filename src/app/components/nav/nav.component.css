@@ -1,0 +1,92 @@
+/* nav.component.css */
+
+nav {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  justify-content: center;
+  align-items: center;
+}
+
+ul > li {
+  list-style: none;
+}
+
+.text-primary {
+  color: #00847e;
+}
+
+.text-link {
+  color: #555555;
+  transition: color 0.2s ease;
+}
+
+.text-link-hover {
+  color: #00847e;
+}
+
+.border-border {
+  border-color: #e5e7eb;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .hidden {
+    display: none;
+  }
+
+  .bg-gray-50 {
+    background-color: #f9fafb;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:block {
+    display: block;
+  }
+
+  .md\:w-auto {
+    width: auto;
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:space-x-8 > * + * {
+    margin-left: 2rem;
+  }
+
+  .md\:mt-0 {
+    margin-top: 0;
+  }
+
+  .md\:p-0 {
+    padding: 0;
+  }
+
+  .md\:border-0 {
+    border-width: 0;
+  }
+
+  .md\:bg-white {
+    background-color: white;
+  }
+}
+
+/* Button hover effects */
+button:hover {
+  background-color: #f3f4f6;
+}
+
+/* Active navigation item */
+a.active {
+  color: #00847e;
+  font-weight: bold;
+}
+
+/* Logo hover effect */
+.text-primary:hover {
+  opacity: 0.9;
+}
