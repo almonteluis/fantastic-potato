@@ -1,0 +1,21 @@
+<thead class="text-[#f8f5f2] bg-[#005961] sticky top-0">
+  <tr class="w-full">
+    <th
+      *ngFor="let header of tableHeaders$ | async; let i = index"
+      scope="col"
+      class="px-4 whitespace-nowrap md:px-6 md:py-4 font-semibold hover:bg-[rgb(10,128,128)] cursor-pointer transition-colors duration-200px-6 py-4 border-b text-center tracking-wider"
+      (click)="handleSort(header)"
+    >
+      <div class="flex items-center justify-between gap-2">
+        <span class="hidden md:block">{{ header }}</span>
+        <span class="md:hidden">
+          <!-- Shortened header text for mobile -->
+          {{ header }}
+        </span>
+        <p *ngIf="getSortIcon(header)" class="inline w-4 h-4">
+          {{ getSortIcon(header) }}
+        </p>
+      </div>
+    </th>
+  </tr>
+</thead>

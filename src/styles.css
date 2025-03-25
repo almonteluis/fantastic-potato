@@ -1,50 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
-/* Display utility classes */
-
-/* Hide elements */
-.hidden {
-  display: none;
+@import "tailwindcss";
+.responsive-container {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Show as block element */
-.block {
-  display: block;
+.responsive-container thead {
+  width: 100%;
 }
 
-/* Show as flex container */
-.flex {
-  display: flex;
+@media (min-width: 640px) {
+  .responsive-container {
+    max-width: 640px;
+  }
 }
 
-/* Show as inline element */
-.inline {
-  display: inline;
-}
-
-/* Show as inline-block element */
-.inline-block {
-  display: inline-block;
-}
-
-/* Responsive display classes */
 @media (min-width: 768px) {
-  .md\:hidden {
-    display: none;
+  .responsive-container {
+    max-width: 768px;
   }
+}
 
-  .md\:block {
-    display: block;
+@media (min-width: 1024px) {
+  .responsive-container {
+    max-width: 1024px;
   }
+}
 
-  .md\:flex {
-    display: flex;
+@media (min-width: 1280px) {
+  .responsive-container {
+    max-width: 1280px;
   }
+}
 
-  .md\:inline {
-    display: inline;
-  }
-
-  .md\:inline-block {
-    display: inline-block;
+@media (min-width: 1536px) {
+  .responsive-container {
+    max-width: 1536px;
   }
 }

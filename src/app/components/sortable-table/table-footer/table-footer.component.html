@@ -1,0 +1,62 @@
+<div class="max-w-7xl mx-auto">
+  <div
+    class="w-full mx-auto sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl 2xl:max-w-screen-2xl"
+  >
+    <div class="bg-[rgb(251,250,250)] mt-auto border-t">
+      <div class="flex items-center justify-between p-4 table-footer">
+        <div class="flex items-center gap-2">
+          <label
+            for="select-options"
+            class="text-[rgb(34,37,37)] text-sm whitespace-nowrap"
+          >
+            Page {{ page$ | async }} of {{ totalPages$ | async }} ({{
+              (slice$ | async)?.length || 0
+            }}
+            items)
+          </label>
+          <select
+            class="bg-white border border-[#005961] text-[rgb(34,37,37)] rounded-lg px-2 py-1 md:px-3 md:py-2"
+            [ngModel]="rowsPerPage$ | async"
+            (ngModelChange)="handleRowsPerPageChange($event)"
+            name="select-options"
+            id="select-options"
+          >
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <div class="flex gap-2">
+          <button
+            (click)="goToFirstPage()"
+            [disabled]="(page$ | async) === 1"
+            class="p-2 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 hover:bg-gray-100"
+          >
+            <span class="text-lg">⟪</span>
+          </button>
+          <button
+            (click)="goToPreviousPage()"
+            [disabled]="(page$ | async) === 1"
+            class="p-2 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 hover:bg-gray-100"
+          >
+            <span class="text-lg">⟨</span>
+          </button>
+          <button
+            (click)="goToNextPage()"
+            [disabled]="(page$ | async) === (totalPages$ | async)"
+            class="p-2 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 hover:bg-gray-100"
+          >
+            <span class="text-lg">⟩</span>
+          </button>
+          <button
+            (click)="goToLastPage()"
+            [disabled]="(page$ | async) === (totalPages$ | async)"
+            class="p-2 rounded-lg disabled:text-gray-400 disabled:cursor-not-allowed text-gray-700 hover:bg-gray-100"
+          >
+            <span class="text-lg">⟫</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

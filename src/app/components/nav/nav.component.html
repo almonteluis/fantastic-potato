@@ -1,30 +1,32 @@
 <!-- nav.component.html -->
-<nav class="bg-background border-border">
-  <div
-    class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
-  >
+<header>
+  <nav class="bg-background border-border">
     <div
-      [ngClass]="{
-        hidden: !isDropdownOpen,
-        block: isDropdownOpen,
-        'w-full': true,
-        'md:block': true,
-        'md:w-auto': true
-      }"
-      id="navbar-default"
+      class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
     >
-      <ul
-        class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 md:mt-0 bg-gray-50 md:bg-white border md:border-0 border-border"
+      <div
+        [ngClass]="{
+          hidden: !isDropdownOpen,
+          block: isDropdownOpen,
+          'w-full': true,
+          'md:block': true,
+          'md:w-auto': true
+        }"
+        id="navbar-default"
       >
-        <li *ngFor="let navElement of navElements">
-          <a
-            [href]="navElement.relativePath"
-            class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-link hover:text-link-hover"
-          >
-            {{ navElement.label }}
-          </a>
-        </li>
-      </ul>
+        <ul
+          class="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 md:mt-0 bg-gray-50 md:bg-white border md:border-0 border-border"
+        >
+          <li *ngFor="let navElement of navElements">
+            <a
+              [href]="navElement.relativePath"
+              class="block py-2 pl-3 pr-4 rounded md:border-0 md:p-0 text-link hover:text-link-hover"
+            >
+              {{ navElement.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</header>

@@ -1,24 +1,34 @@
-// app.component.ts
+// src/app/app.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavComponent } from './components/nav/nav.component';
-import { CityListComponent } from './components/city-list/city-list.component';
+import { SortableTableComponent } from './components/sortable-table/sortable-table.component';
 import { CitiesService, City } from './data/worldcities/cities.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, FormsModule, NavComponent, CityListComponent],
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    FormsModule,
+    NavComponent,
+    SortableTableComponent,
+  ],
   template: `
-    <main class="main">
-      <div class="content">
-        <div class="left-side">
-          <app-nav></app-nav>
-          <h1 class="text-text-primary text-center dark:text-text-primary-dark">City List</h1>
-          
-          <form class="flex justify-center py-3" (ngSubmit)="handleFormSubmit($event)">
+    <div class="app-layout bg-white">
+      <app-nav></app-nav>
+      <main class="overflow-hidden">
+        <div class="flex flex-col w-full">
+          <h1 class="text-text-primary text-center dark:text-text-primary-dark">
+            City List
+          </h1>
+          <form
+            class="flex justify-center py-3"
+            (ngSubmit)="handleFormSubmit($event)"
+          >
             <div class="relative max-w-md mx-auto">
               <input
                 id="search"
@@ -36,21 +46,33 @@ import { CitiesService, City } from './data/worldcities/cities.service';
                   height="16"
                   fill="currentColor"
                 >
-                  <path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z" />
+                  <path
+                    d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"
+                  />
                 </svg>
               </span>
             </div>
           </form>
 
-          <div *ngIf="error" class="text-text-primary dark:text-text-primary-dark">Eek! {{ error.message }}</div>
-          
-          <app-city-list *ngIf="!error" [cities]="cities" [isLoading]="isDataLoading"></app-city-list>
+          <div
+            *ngIf="error"
+            class="text-text-primary dark:text-text-primary-dark"
+          >
+            Eek! {{ error.message }}
+          </div>
+
+          <!-- Use SortableTable component instead of CityList -->
+          <app-sortable-table
+            *ngIf="!error"
+            [cities]="cities"
+            [isLoading]="isDataLoading"
+          ></app-sortable-table>
         </div>
-      </div>
-    </main>
-    <router-outlet />
+      </main>
+      <router-outlet />
+    </div>
   `,
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   title = 'City Search';
@@ -63,7 +85,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Remove initial loader if it exists
-    const loader = document.getElementById("initial-loader");
+    const loader = document.getElementById('initial-loader');
     if (loader) {
       loader.remove();
     }
@@ -111,16 +133,16 @@ export class AppComponent implements OnInit {
           if (err instanceof Error) {
             this.error = err;
           } else {
-            this.error = new Error("An unexpected error occurred");
+            this.error = new Error('An unexpected error occurred');
           }
           this.isDataLoading = false;
-        }
+        },
       });
     } catch (err) {
       if (err instanceof Error) {
         this.error = err;
       } else {
-        this.error = new Error("An unexpected error occurred");
+        this.error = new Error('An unexpected error occurred');
       }
       this.isDataLoading = false;
     }
@@ -133,7 +155,7 @@ export class AppComponent implements OnInit {
   handleFormSubmit(e: Event): void {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-    const inputElement = formData.get("search") as string;
+    const inputElement = formData.get('search') as string;
     this.searchTerm = inputElement;
     this.runSearch(this.searchTerm);
   }
